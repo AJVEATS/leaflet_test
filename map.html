@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+  <title>leaflet map test</title>
+  <!-- Leaflet CSS file -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+    integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+    crossorigin=""
+  />
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
+    integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
+    crossorigin=""
+  ></script>
+
+  <!-- styling -->
+  <style>
+    #map {
+      height: 50vh;
+      width: 50vw;
+      margin: 25vh auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <!-- JS Scripts -->
+  <script>
+    var houseCordsLat = 50.74407197140642;
+    var houseCordsLong = -1.8731948581162023;
+    var map = L.map("map").setView([houseCordsLat, houseCordsLong], 17.5);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    var marker = L.marker([houseCordsLat, houseCordsLong]).addTo(map);
+
+    // var circle = L.circle([houseCordsLat, houseCordsLong], {
+    //   color: "red",
+    //   fillColor: "#f03",
+    //   fillOpacity: 0.5,
+    //   radius: 10,
+    // }).addTo(map);
+
+    var polygon = L.polygon([
+      [50.74412031308242, -1.8732986046791804],
+      [50.744047502077244, -1.8733193538006065],
+      [50.744022436017964, -1.8730920549196985],
+      [50.74409703741585, -1.8730703622989293],
+    ]).addTo(map);
+
+    var popup = L.popup()
+      .setLatLng([houseCordsLat, houseCordsLong])
+      .setContent("31 Bemister Road")
+      .openOn(map);
+
+    var popup = L.popup();
+
+    function onMapClick(e) {
+      popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+      console.log(e.latlng.latitude);
+    }
+
+    map.on("click", onMapClick);
+  </script>
+</body>
